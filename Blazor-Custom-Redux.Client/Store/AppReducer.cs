@@ -1,16 +1,13 @@
 using System.Collections.Immutable;
+using Blazor.CustomRedux.Store;
 
 namespace Blazor_Custom_Redux.Client.Store;
 
-public static class AppReducer
+public sealed class AppReducer : IReduxReducer<AppState>
 {
-    public static AppState Reduce(AppState state, IStoreAction action) =>
+    public AppState Reduce(AppState state, IReduxAction action) =>
         action switch
         {
-            HydrateStateAction hydrateAction => hydrateAction.State with
-            {
-                IsHydrated = true
-            },
             AddTodoAction addTodoAction => ReduceAddTodo(state, addTodoAction),
             ToggleTodoAction toggleTodoAction => state with
             {

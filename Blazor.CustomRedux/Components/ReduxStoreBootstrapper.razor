@@ -1,4 +1,5 @@
-@inject ReduxStore Store
+@typeparam TState
+@inject ReduxStore<TState> Store
 
 @code {
     protected override async Task OnAfterRenderAsync(bool firstRender)

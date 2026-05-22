@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Blazor-Custom-Redux.Client/Blazor-Custom-Redux.Client.csproj" />
+  <Project Path="Blazor-Custom-Redux/Blazor-Custom-Redux.csproj" />
+  <Project Path="Blazor.CustomRedux/Blazor.CustomRedux.csproj" />
+</Solution>
