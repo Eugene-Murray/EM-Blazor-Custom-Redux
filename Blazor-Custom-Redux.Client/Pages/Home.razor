@@ -1,0 +1,27 @@
+@page "/"
+
+<PageTitle>Todo Store</PageTitle>
+
+<div class="hero-panel mb-4">
+    <span class="badge rounded-pill text-bg-primary mb-3">Blazor + Rx.NET + Custom Redux</span>
+    <h1>Shared immutable todo state across multiple components</h1>
+    <p class="lead mb-0">
+        This demo uses a custom store with actions, reducers, effects, observable selectors, and browser localStorage persistence.
+        Update a todo anywhere and every connected component reacts to the same state immediately.
+    </p>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-xxl-4">
+        <TodoComposer />
+        <TodoStatsPanel class="mt-4" />
+    </div>
+
+    <div class="col-12 col-xxl-8">
+        <TodoListPanel />
+    </div>
+
+    <div class="col-12">
+        <TodoMirrorPanel />
+    </div>
+</div>

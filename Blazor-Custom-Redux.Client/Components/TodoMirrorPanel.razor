@@ -1,0 +1,61 @@
+@implements IDisposable
+@inject ReduxStore Store
+
+<div class="card store-card">
+    <div class="card-header">
+        <h2 class="h5 mb-1">Mirror component</h2>
+        <p class="text-muted small mb-0">A second component reads the same store slice and can dispatch actions against the same todo items.</p>
+    </div>
+    <div class="card-body">
+        @if (_todos.Count == 0)
+        {
+            <p class="text-muted mb-0">Nothing to mirror yet.</p>
+        }
+        else
+        {
+            <div class="todo-mirror-grid">
+                @foreach (var todo in _todos)
+                {
+                    <section class="todo-mirror-item @(todo.IsCompleted ? "completed" : null)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <div class="fw-semibold todo-title @(todo.IsCompleted ? "completed" : null)">@todo.Title</div>
+                                <div class="text-muted small">Id: @todo.Id.ToString()[..8]</div>
+                            </div>
+                            <span class="badge @(todo.IsCompleted ? "text-bg-success" : "text-bg-warning")">
+                                @(todo.IsCompleted ? "Done" : "Pending")
+                            </span>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button class="btn btn-sm btn-outline-primary" @onclick="@(() => Toggle(todo.Id))">
+                                @(todo.IsCompleted ? "Mark pending" : "Mark done")
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" @onclick="@(() => Remove(todo.Id))">Remove</button>
+                        </div>
+                    </section>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private IDisposable? _subscription;
+    private IReadOnlyList<TodoItem> _todos = Array.Empty<TodoItem>();
+
+    protected override void OnInitialized()
+    {
+        _subscription = Store.Select(state => state.Todos).Subscribe(todos =>
+        {
+            _todos = todos;
+            _ = InvokeAsync(StateHasChanged);
+        });
+    }
+
+    private void Toggle(Guid todoId) => Store.Dispatch(new ToggleTodoAction(todoId));
+
+    private void Remove(Guid todoId) => Store.Dispatch(new RemoveTodoAction(todoId));
+
+    public void Dispose() => _subscription?.Dispose();
+}

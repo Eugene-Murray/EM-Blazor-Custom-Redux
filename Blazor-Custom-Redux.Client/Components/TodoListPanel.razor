@@ -1,0 +1,59 @@
+@implements IDisposable
+@inject ReduxStore Store
+
+<div class="card store-card h-100">
+    <div class="card-header d-flex justify-content-between align-items-center gap-3 flex-wrap">
+        <div>
+            <h2 class="h5 mb-1">Primary list component</h2>
+            <p class="text-muted small mb-0">Toggle and remove items here to watch every connected component update together.</p>
+        </div>
+        <span class="badge text-bg-light border">@_todos.Count active snapshots</span>
+    </div>
+    <div class="card-body">
+        @if (_todos.Count == 0)
+        {
+            <p class="text-muted mb-0">The reducer cleared every todo. Dispatch a new add action to repopulate the list.</p>
+        }
+        else
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var todo in _todos)
+                {
+                    <li class="list-group-item px-0">
+                        <div class="d-flex align-items-start gap-3">
+                            <input class="form-check-input mt-1 darker-border-checkbox"
+                                   type="checkbox"
+                                   checked="@todo.IsCompleted"
+                                   @onchange="@(() => Toggle(todo.Id))" />
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold todo-title @(todo.IsCompleted ? "completed" : null)">@todo.Title</div>
+                                <div class="text-muted small">Created @todo.CreatedAt.ToLocalTime().ToString("g")</div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary" @onclick="@(() => Remove(todo.Id))">Remove</button>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    private IDisposable? _subscription;
+    private IReadOnlyList<TodoItem> _todos = Array.Empty<TodoItem>();
+
+    protected override void OnInitialized()
+    {
+        _subscription = Store.Select(state => state.Todos).Subscribe(todos =>
+        {
+            _todos = todos;
+            _ = InvokeAsync(StateHasChanged);
+        });
+    }
+
+    private void Toggle(Guid todoId) => Store.Dispatch(new ToggleTodoAction(todoId));
+
+    private void Remove(Guid todoId) => Store.Dispatch(new RemoveTodoAction(todoId));
+
+    public void Dispose() => _subscription?.Dispose();
+}

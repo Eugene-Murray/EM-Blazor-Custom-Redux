@@ -1,0 +1,57 @@
+@using System.ComponentModel.DataAnnotations
+@inject ReduxStore Store
+
+<div class="card store-card">
+    <div class="card-header">
+        <h2 class="h5 mb-1">Dispatch actions</h2>
+        <p class="text-muted small mb-0">Create new todos by dispatching immutable add actions.</p>
+    </div>
+    <div class="card-body">
+        <EditForm EditContext="_editContext" OnValidSubmit="AddTodoAsync">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label class="form-label" for="todo-title">Todo title</label>
+                <InputText id="todo-title" class="form-control" @bind-Value="_input.Title" />
+                <ValidationMessage For="() => _input.Title" />
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Dispatch AddTodoAction</button>
+                <button type="button" class="btn btn-outline-secondary" @onclick="Reset">Reset</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private readonly TodoInputModel _input = new();
+    private EditContext _editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_input);
+    }
+
+    private Task AddTodoAsync()
+    {
+        Store.Dispatch(new AddTodoAction(_input.Title));
+        Reset();
+
+        return Task.CompletedTask;
+    }
+
+    private void Reset()
+    {
+        _input.Title = string.Empty;
+        _editContext = new EditContext(_input);
+        StateHasChanged();
+    }
+
+    private sealed class TodoInputModel
+    {
+        [Required]
+        [StringLength(120, MinimumLength = 3)]
+        public string Title { get; set; } = string.Empty;
+    }
+}

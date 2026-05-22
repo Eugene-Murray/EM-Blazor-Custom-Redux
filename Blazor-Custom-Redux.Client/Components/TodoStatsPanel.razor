@@ -1,0 +1,61 @@
+@implements IDisposable
+@inject ReduxStore Store
+
+<div @attributes="AdditionalAttributes" class="card store-card">
+    <div class="card-header">
+        <h2 class="h5 mb-1">Selected state</h2>
+        <p class="text-muted small mb-0">Selectors compute the current store summary from immutable state.</p>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-6">
+                <div class="border rounded-4 p-3 h-100">
+                    <div class="text-uppercase small text-muted">Total</div>
+                    <div class="display-6 fw-semibold">@_todos.Count</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="border rounded-4 p-3 h-100">
+                    <div class="text-uppercase small text-muted">Completed</div>
+                    <div class="display-6 fw-semibold">@_completedCount</div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="border rounded-4 p-3">
+                    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                        <div>
+                            <div class="fw-semibold">Browser backup</div>
+                            <div class="text-muted small">@(_isHydrated ? "Loaded from and saved to localStorage." : "Hydrating store...")</div>
+                        </div>
+                        <button class="btn btn-outline-danger" @onclick="ClearCompleted" disabled="@(_completedCount == 0)">Clear completed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private IDisposable? _subscription;
+    private IReadOnlyList<TodoItem> _todos = Array.Empty<TodoItem>();
+    private int _completedCount;
+    private bool _isHydrated;
+
+    protected override void OnInitialized()
+    {
+        _subscription = Store.States.Subscribe(state =>
+        {
+            _todos = state.Todos;
+            _completedCount = state.Todos.Count(todo => todo.IsCompleted);
+            _isHydrated = state.IsHydrated;
+            _ = InvokeAsync(StateHasChanged);
+        });
+    }
+
+    private void ClearCompleted() => Store.Dispatch(new ClearCompletedTodosAction());
+
+    public void Dispose() => _subscription?.Dispose();
+}

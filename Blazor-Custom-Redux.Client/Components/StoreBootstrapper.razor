@@ -1,0 +1,11 @@
+@inject ReduxStore Store
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Store.InitializeAsync();
+        }
+    }
+}
