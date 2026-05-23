@@ -1,0 +1,36 @@
+@page "/server-demo"
+@rendermode InteractiveServer
+@using EM.Blazor_Custom_Redux.Components.ServerDemo
+
+<PageTitle>Server Counter — Blazor Server</PageTitle>
+
+<div class="hero-panel mb-4">
+	<span class="badge rounded-pill text-bg-success mb-3">Blazor Server + Rx.NET + Custom Redux</span>
+	<h1>Per-user counter over a SignalR circuit</h1>
+	<p class="lead mb-2">
+		This demo runs as <strong>Blazor Server</strong>. The store is registered as <code>AddScoped</code> so
+		every SignalR circuit (browser tab / user session) gets its own completely isolated store instance.
+		Open this page in two tabs and increment each independently — the counts never interfere.
+	</p>
+	<p class="lead mb-0">
+		There is <strong>no localStorage</strong> here. <code>.WithLocalStoragePersistence()</code> was <em>not</em>
+		called when registering this store — proving that browser persistence is a WASM-only opt-in.
+		The counter resets when the circuit closes.
+	</p>
+</div>
+
+<div class="row g-4">
+	<div class="col-12 col-lg-5">
+		<CounterDisplay />
+	</div>
+	<div class="col-12 col-lg-7">
+		<CounterControls />
+	</div>
+	<div class="col-12">
+		<ReduxDebugPanel TState="ServerCounterState" />
+	</div>
+</div>
+
+<div class="mt-4">
+	<a href="/" class="btn btn-outline-primary">&larr; Back to WASM Todo demo</a>
+</div>

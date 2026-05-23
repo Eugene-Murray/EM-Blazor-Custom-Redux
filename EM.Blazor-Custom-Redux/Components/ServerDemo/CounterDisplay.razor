@@ -1,0 +1,36 @@
+@implements IDisposable
+@inject ReduxStore<ServerCounterState> Store
+
+<div class="card store-card">
+	<div class="card-header">
+		<h2 class="h5 mb-1">Per-circuit counter</h2>
+		<p class="text-muted small mb-0">
+			Each component subscribes to the same scoped store via <code>Store.Select()</code>.
+			Both panels below read and write the same state within this circuit.
+		</p>
+	</div>
+	<div class="card-body">
+		<div class="display-1 fw-bold text-center py-3">@_count</div>
+		<p class="text-center text-muted small mb-0">
+			Last updated: @_lastUpdatedAt.ToLocalTime().ToString("HH:mm:ss.fff")
+		</p>
+	</div>
+</div>
+
+@code {
+	private IDisposable? _subscription;
+	private int _count;
+	private DateTimeOffset _lastUpdatedAt;
+
+	protected override void OnInitialized()
+	{
+		_subscription = Store.States.Subscribe(state =>
+		{
+			_count = state.Count;
+			_lastUpdatedAt = state.LastUpdatedAt;
+			_ = InvokeAsync(StateHasChanged);
+		});
+	}
+
+	public void Dispose() => _subscription?.Dispose();
+}

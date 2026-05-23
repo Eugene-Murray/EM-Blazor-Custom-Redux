@@ -9,6 +9,7 @@
     <RootNamespace>EM.Blazor_Custom_Redux.Client</RootNamespace>
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+    <WasmDebugLevel>0</WasmDebugLevel>
   </PropertyGroup>
 
   <ItemGroup>
