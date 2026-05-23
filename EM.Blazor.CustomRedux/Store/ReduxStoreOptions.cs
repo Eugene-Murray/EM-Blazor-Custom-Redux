@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Blazor.CustomRedux.Store;
+namespace EM.Blazor.CustomRedux.Store;
 
 public sealed class ReduxStoreOptions<TState>
 {

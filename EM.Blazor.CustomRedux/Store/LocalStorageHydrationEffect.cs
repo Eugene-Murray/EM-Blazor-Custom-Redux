@@ -1,7 +1,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace Blazor.CustomRedux.Store;
+namespace EM.Blazor.CustomRedux.Store;
 
 public sealed class LocalStorageHydrationEffect<TState>(
     IReduxStateStorage<TState> stateStorage,

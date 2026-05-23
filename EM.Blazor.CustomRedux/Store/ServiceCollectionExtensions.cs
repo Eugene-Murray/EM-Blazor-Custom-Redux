@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blazor.CustomRedux.Store;
+namespace EM.Blazor.CustomRedux.Store;
 
 public static class ServiceCollectionExtensions
 {

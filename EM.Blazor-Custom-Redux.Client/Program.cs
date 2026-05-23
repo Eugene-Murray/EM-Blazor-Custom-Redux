@@ -1,5 +1,5 @@
-using Blazor.CustomRedux.Store;
-using Blazor_Custom_Redux.Client.Store;
+using EM.Blazor.CustomRedux.Store;
+using EM.Blazor_Custom_Redux.Client.Store;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

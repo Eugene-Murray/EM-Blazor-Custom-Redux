@@ -1,5 +1,5 @@
-using Blazor_Custom_Redux.Client.Pages;
-using Blazor_Custom_Redux.Components;
+using EM.Blazor_Custom_Redux.Client.Pages;
+using EM.Blazor_Custom_Redux.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Blazor_Custom_Redux.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(EM.Blazor_Custom_Redux.Client._Imports).Assembly);
 
 app.Run();

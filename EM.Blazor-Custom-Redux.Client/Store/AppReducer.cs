@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
-using Blazor.CustomRedux.Store;
+using EM.Blazor.CustomRedux.Store;
 
-namespace Blazor_Custom_Redux.Client.Store;
+namespace EM.Blazor_Custom_Redux.Client.Store;
 
 public sealed class AppReducer : IReduxReducer<AppState>
 {

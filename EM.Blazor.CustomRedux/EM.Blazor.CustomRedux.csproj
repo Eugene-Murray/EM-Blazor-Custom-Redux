@@ -4,15 +4,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PackageId>Blazor.CustomRedux</PackageId>
+    <PackageId>EM.Blazor.CustomRedux</PackageId>
     <Version>1.0.0</Version>
-    <Authors>Eugen</Authors>
+    <Authors>Eugene Murray</Authors>
     <Description>Reusable immutable Redux-style store, effects, localStorage persistence, and debug components for Blazor.</Description>
     <PackageTags>blazor;redux;rx;state-management;localstorage</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <RootNamespace>Blazor.CustomRedux</RootNamespace>
+    <RootNamespace>EM.Blazor.CustomRedux</RootNamespace>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 

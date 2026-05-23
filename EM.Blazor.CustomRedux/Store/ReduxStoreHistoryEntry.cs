@@ -1,4 +1,4 @@
-namespace Blazor.CustomRedux.Store;
+namespace EM.Blazor.CustomRedux.Store;
 
 public sealed record ReduxStoreHistoryEntry(
     int Sequence,

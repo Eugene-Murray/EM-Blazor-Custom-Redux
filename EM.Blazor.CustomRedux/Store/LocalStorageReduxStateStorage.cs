@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.JSInterop;
 
-namespace Blazor.CustomRedux.Store;
+namespace EM.Blazor.CustomRedux.Store;
 
 public sealed class LocalStorageReduxStateStorage<TState>(
     IJSRuntime jsRuntime,

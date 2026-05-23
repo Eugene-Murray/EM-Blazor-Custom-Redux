@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace Blazor_Custom_Redux.Client.Store;
+namespace EM.Blazor_Custom_Redux.Client.Store;
 
 public sealed record TodoItem(Guid Id, string Title, bool IsCompleted, DateTimeOffset CreatedAt);
 
